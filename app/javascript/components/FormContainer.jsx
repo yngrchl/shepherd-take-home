@@ -52,7 +52,8 @@ const FormContainer = () => {
     <>
       {error && <Alert severity="error">{error}</Alert>}
       <h1>{title}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="post" action={"/api/apps"}>
+        <input type="hidden" id={"type_id"} name={"type_id"} value={id} />
         <Form fields={fields} />
         <br />
         <button>Submit</button>

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'components#index'
   namespace :api do
     resources :app_types, only: [:show]
+    resources :apps, only: [:create]
   end
   get '/*path', to: 'components#index'
 
