@@ -1,26 +1,56 @@
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Checkbox, Number, Select, Text, Url } from "./formInputs";
+import { Box } from "@mui/material";
 
-const Form = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const Form = ({ fields, depth = 0 }) => {
+  const [fieldData, setFieldData] = useState(fields);
 
   useEffect(() => {
-    const apiUrl = `/api/app_types/${id}`;
+    if (fields != fieldData) {
+      setFieldData(fields);
+    }
+  }, [fields]);
 
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          navigate('/error')
-        }
+  const fieldsContent = fieldData.map((field) => {
+    let input;
+    switch (field.component) {
+      case "checkbox":
+        input = <Checkbox {...field} />;
+        break;
+      case "number":
+        input = <Number {...field} />;
+        break;
+      case "select":
+        input = <Select {...field} />;
+        break;
+      case "text":
+        input = <Text {...field} />;
+        break;
+      case "url":
+        input = <Url {...field} />;
+        break;
+      default:
+        input = (
+          <>
+            <p>
+              <b>{field.title}</b>
+            </p>
+            <p>{field.description}</p>
+            <Box pl={depth}>
+              <Form fields={field.fields} depth={depth} />
+            </Box>
+          </>
+        );
+    }
 
-        return response.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) => {console.log(error)});
-  }, []);
+    return (
+      <Box mt={2} pl={1 + depth} key={field.name}>
+        {input}
+      </Box>
+    );
+  });
 
-  return <></>;
+  return <>{fieldsContent}</>;
 };
 
 export default Form;
