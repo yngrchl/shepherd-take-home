@@ -1,0 +1,2 @@
+class AutoApp < ApplicationRecord
+end
