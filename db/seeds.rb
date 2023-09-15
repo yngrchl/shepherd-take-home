@@ -5,7 +5,12 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+AppType.destroy_all
 
 AppType.create(type_id: 0, name: "company")
 AppType.create(type_id: 1, name: "employee")
 AppType.create(type_id: 2, name: "auto")
+
+CompanyApp.destroy_all
+EmployeeApp.destroy_all
+AutoApp.destroy_all

@@ -15,7 +15,7 @@ class Api::AppsController < ApplicationController
     end
 
     if @app.save
-      render json: {}, status: :created
+      render json: @app, status: :created
     else
       render json: {}, status: :unprocessable_entity
     end
